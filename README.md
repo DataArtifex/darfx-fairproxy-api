@@ -68,6 +68,32 @@ Versions are managed dynamically in `src/dartfx/fairproxy_api/__about__.py`. You
 ### Secret Management
 For local development, create a `.env` file in the root directory. This file is git-ignored and can be used to store local API keys or configuration. These are automatically loaded by the test suite.
 
+### Run API Locally
+
+From this project directory, install dependencies first:
+
+```bash
+uv sync
+```
+
+If you are working in a monorepo, use an explicit app directory so Python resolves `fairproxy_api` correctly:
+
+```bash
+uv run uvicorn --app-dir src/dartfx fairproxy_api.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Alternative:
+
+```bash
+PYTHONPATH=src/dartfx uv run uvicorn fairproxy_api.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Quick health check:
+
+```bash
+curl http://127.0.0.1:8000/status
+```
+
 ### Running Tests
 ```bash
 uv run pytest
