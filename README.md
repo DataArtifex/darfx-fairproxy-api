@@ -16,17 +16,26 @@
 `fairproxy-api` is a FastAPI service that exposes FAIR-oriented metadata and native
 payloads for heterogeneous data platforms behind a single API surface.
 
-Current platform support is centered on Socrata datasets, including:
+## Supported Platform
 
-- Croissant metadata
-- DCAT metadata
-- DDI Codebook XML
-- DDI-CDIF graphs
-- Markdown dataset summaries
-- Postman collection generation
-- Platform-native dataset payloads through a common `/native` endpoint
+[Socrata](https://dev.socrata.com/) (a.k.a. Data Insights) is the only fully implemented platform at this time. Support for [MTNA Rich Data Services](https:/www.richdataservices.com) in under development.
 
-2. **Register with DeepWiki**: To ensure your documentation is indexed and discoverable by AI agents, register your new repository at [DeepWiki.com](https://deepwiki.com/).
+### Socrata
+
+Socrata (also known as Data Insights) is a cloud data publishing platform used by governments and organizations to host open data portals and dataset APIs.
+
+Socrata datasets through both a unified FAIR URI route (`/datasets/{uri}`) and a
+Socrata-specific route (`/socrata/{host}/{dataset_id}`).
+
+## Supported Standards
+
+- [Croissant](https://mlcommons.org/working-groups/data/croissant/) — MLCommons metadata format for machine learning datasets.
+- [DCAT](https://www.w3.org/TR/vocab-dcat-3/) — W3C vocabulary for publishing data catalogs on the web.
+- [DDI Codebook](https://ddialliance.org/create-a-codebook) — XML standard for documenting survey and social science datasets.
+- [DDI-CDI](https://ddialliance.org/ddi-cdi) (via CDIF profile) — semantic model for structured data integration and interoperability.
+- [Markdown](https://www.markdownguide.org/) — lightweight plain-text format for human-readable dataset summaries.
+- [Postman Collection](https://schema.postman.com/) — machine-readable API request collection format for tooling and sharing.
+- platform-native metadata via the common `/native` endpoint
 
 ## Installation
 
@@ -122,6 +131,22 @@ hatch run docs:build
 curl http://127.0.0.1:8000/status
 ```
 
+### Socrata URI Format
+
+The unified datasets endpoint expects Socrata URIs in this format:
+
+`socrata:<server>:<dataset-id>`
+
+Where:
+
+- `socrata` is the platform identifier.
+- `<server>` is the Socrata host (for example, `data.sfgov.org`).
+- `<dataset-id>` is the Socrata dataset identifier (for example, `wg3w-h783`).
+
+Example URI:
+
+`socrata:data.sfgov.org:wg3w-h783`
+
 ### Example Socrata Metadata Endpoints
 
 Unified dataset route using a FAIR URI:
@@ -148,7 +173,8 @@ curl "http://127.0.0.1:8000/socrata/data.sfgov.org/wg3w-h783/native"
 
 ## Roadmap
 
-...
+- MTNA Rich Data Service (MTNA RDS) adapter support
+- Additional platform adapters aligned with the common `DatasetProvider` interface
 
 ## Contributing
 

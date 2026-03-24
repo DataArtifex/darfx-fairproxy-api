@@ -39,6 +39,22 @@ curl http://127.0.0.1:8000/status
 
 ## Endpoint Examples
 
+### Socrata URI Format
+
+The unified datasets endpoint expects Socrata URIs in this format:
+
+`socrata:<server>:<dataset-id>`
+
+Where:
+
+- `socrata` is the platform identifier.
+- `<server>` is the Socrata host (for example, `data.sfgov.org`).
+- `<dataset-id>` is the Socrata dataset identifier (for example, `wg3w-h783`).
+
+Example URI:
+
+`socrata:data.sfgov.org:wg3w-h783`
+
 ### Unified dataset routes
 
 ```bash
