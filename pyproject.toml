@@ -19,18 +19,18 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
 ]
 dependencies = [
-  "dartfx-ddi",
-  "dartfx-postman",
-  "dartfx-socrata",
-    "fastapi>=0.135.1",
-    "httpx>=0.28.1",
-    "lxml>=6.0.2",
-    "pydantic>=2.12.5",
-    "pyyaml>=6.0.3",
-    "rdflib>=7.6.0",
-    "requests-cache>=1.3.1",
-    "uritools>=6.0.1",
-    "uvicorn>=0.41.0",
+  "dartfx-ddi @ git+https://github.com/DataArtifex/ddi-toolkit.git" ,
+  "dartfx-postman @ git+https://github.com/DataArtifex/postman-toolkit.git" ,
+  "dartfx-socrata @ git+https://github.com/DataArtifex/socrata-toolkit.git" ,
+  "fastapi>=0.135.1",
+  "httpx>=0.28.1",
+  "lxml>=6.0.2",
+  "pydantic>=2.12.5",
+  "pyyaml>=6.0.3",
+  "rdflib>=7.6.0",
+  "requests-cache>=1.3.1",
+  "uritools>=6.0.1",
+  "uvicorn>=0.41.0",
 ]
 
 [project.urls]
