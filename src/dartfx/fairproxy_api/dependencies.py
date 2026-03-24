@@ -17,9 +17,9 @@ def get_server_repository() -> ServerRepository:
 
 @lru_cache(maxsize=128)
 def get_socrata_server(host: str) -> Any:
-    from fairproxy_api.adapters.socrata import SocrataServerMock
+    from fairproxy_api.adapters.socrata import create_socrata_server
 
-    return SocrataServerMock(host=host)
+    return create_socrata_server(host)
 
 
 def get_platform_adapter(uri: str) -> DatasetProvider:
@@ -30,8 +30,8 @@ def get_platform_adapter(uri: str) -> DatasetProvider:
 
     try:
         resource_info = resolve_resource(uri)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Failed to resolve URN '{uri}': {e}")
+    except Exception as err:
+        raise HTTPException(status_code=400, detail=f"Failed to resolve URN '{uri}': {err}") from err
 
     if not resource_info or not resource_info.platform:
         raise HTTPException(status_code=400, detail=f"Resource {uri} is not supported or malformed.")
@@ -42,6 +42,8 @@ def get_platform_adapter(uri: str) -> DatasetProvider:
 
         # Leverage our SocrataServer lru cache
         server = get_socrata_server(resource_info.host)
+        if resource_info.host_resource_id is None:
+            raise HTTPException(status_code=400, detail=f"No dataset ID found in URI '{uri}'.")
         return SocrataAdapter(server, resource_info.host_resource_id)
 
     elif resource_info.platform == Platform.MTNARDS:

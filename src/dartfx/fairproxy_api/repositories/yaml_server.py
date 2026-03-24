@@ -18,10 +18,10 @@ class YamlServerRepository(ServerRepository):
         else:
             self.file_path = file_path
 
-        self._cache = []
+        self._cache: list[ServerInfo] = []
         self._loaded = False
 
-    def _load_if_needed(self):
+    def _load_if_needed(self) -> None:
         if self._loaded:
             return
 

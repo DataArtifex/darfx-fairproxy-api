@@ -1,3 +1,5 @@
+from typing import Any
+
 from fairproxy_api.adapters.base import DatasetProvider
 from fastapi import HTTPException
 from rdflib import Graph
@@ -14,7 +16,7 @@ class UsCensusAdapter(DatasetProvider):
         self.host = host
         self.dataset_id = dataset_id
 
-    async def get_croissant(self) -> dict:
+    async def get_croissant(self) -> dict[str, Any]:
         raise HTTPException(
             status_code=501, detail="U.S. Census Croissant generation is experimental and currently disabled."
         )
@@ -25,11 +27,13 @@ class UsCensusAdapter(DatasetProvider):
         )
 
     async def get_ddi_cdif_graph(self, use_skos: bool = True) -> Graph:
+        del use_skos
         raise HTTPException(
             status_code=501, detail="U.S. Census DDI-CDIF generation is experimental and currently disabled."
         )
 
     async def get_ddi_codebook_xml(self, pretty: bool = False) -> str:
+        del pretty
         raise HTTPException(
             status_code=501, detail="U.S. Census DDI Codebook generation is experimental and currently disabled."
         )
@@ -39,20 +43,20 @@ class UsCensusAdapter(DatasetProvider):
             status_code=501, detail="U.S. Census Markdown generation is experimental and currently disabled."
         )
 
-    async def get_postman_collection(self) -> dict:
+    async def get_postman_collection(self) -> dict[str, Any]:
         raise HTTPException(
             status_code=501, detail="U.S. Census Postman Collection generation is experimental and currently disabled."
         )
 
-    async def get_native_data(self) -> dict:
+    async def get_native_data(self) -> dict[str, Any]:
         raise HTTPException(status_code=501, detail="U.S. Census native data is experimental and currently disabled.")
 
-    async def get_geography(self) -> dict:
+    async def get_geography(self) -> dict[str, Any]:
         raise HTTPException(
             status_code=501, detail="U.S. Census geography data is experimental and currently disabled."
         )
 
-    async def get_variables(self) -> dict:
+    async def get_variables(self) -> dict[str, Any]:
         raise HTTPException(
             status_code=501, detail="U.S. Census variables data is experimental and currently disabled."
         )

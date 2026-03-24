@@ -1,6 +1,5 @@
-
-fair-proxy-api
----------
+API Modules
+===========
 
 .. automodule:: dartfx.fairproxy_api
    :members:

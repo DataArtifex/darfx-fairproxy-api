@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 from rdflib import Graph
 
@@ -14,7 +15,7 @@ class DatasetProvider(ABC):
         pass
 
     @abstractmethod
-    async def get_croissant(self) -> dict:
+    async def get_croissant(self) -> dict[str, Any]:
         """Return the MLCommons Croissant metadata as a dictionary."""
         pass
 
@@ -39,6 +40,11 @@ class DatasetProvider(ABC):
         pass
 
     @abstractmethod
-    async def get_postman_collection(self) -> dict:
+    async def get_postman_collection(self) -> dict[str, Any]:
         """Return a generated data-centric Postman collection for this dataset."""
+        pass
+
+    @abstractmethod
+    async def get_native_data(self) -> dict[str, Any]:
+        """Return platform-native metadata/payload for this dataset."""
         pass

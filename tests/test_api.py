@@ -6,49 +6,49 @@ from fastapi.testclient import TestClient
 client = TestClient(app)
 
 
-def test_status_endpoint():
+def test_status_endpoint() -> None:
     response = client.get("/status")
     assert response.status_code == 200
     assert response.json() == {"status": "pass", "version": "0.1.0"}
 
 
-def test_socrata_dcat():
+def test_socrata_dcat() -> None:
     response = client.get("/socrata/data.cityofnewyork.us/uvpi-gqnh/dcat")
     assert response.status_code == 200
     assert response.headers["content-type"] == "application/ld+json"
 
 
-def test_socrata_unified_dcat():
+def test_socrata_unified_dcat() -> None:
     response = client.get("/datasets/urn:socrata:data.cityofnewyork.us:uvpi-gqnh/dcat")
     assert response.status_code == 200
     assert response.headers["content-type"] == "application/ld+json"
 
 
-def test_unsupported_unified_platform():
+def test_unsupported_unified_platform() -> None:
     response = client.get("/datasets/urn:mtnards:rds.highvalueata.net:catalog:dataset/dcat")
     assert response.status_code == 501
     assert "experimental" in response.json()["detail"]
 
 
-def test_resources_placeholder():
+def test_resources_placeholder() -> None:
     response = client.get("/resources/")
     assert response.status_code == 200
 
 
-def test_vocab_placeholder():
+def test_vocab_placeholder() -> None:
     response = client.get("/vocab/")
     assert response.status_code == 200
 
 
 # Servers Route Tests
-def override_get_server_repository():
+def override_get_server_repository() -> YamlServerRepository:
     return YamlServerRepository()
 
 
 app.dependency_overrides[get_server_repository] = override_get_server_repository
 
 
-def test_servers_get_all():
+def test_servers_get_all() -> None:
     response = client.get("/servers/")
     assert response.status_code == 200
     servers = response.json()
@@ -56,7 +56,7 @@ def test_servers_get_all():
     assert len(servers) > 0  # servers.yaml has multiple entries
 
 
-def test_servers_get_by_id():
+def test_servers_get_by_id() -> None:
     response = client.get("/servers/data.cityofchicago.org")
     assert response.status_code == 200
     server = response.json()
@@ -64,13 +64,13 @@ def test_servers_get_by_id():
     assert server["platform"] == "socrata"
 
 
-def test_servers_get_by_id_missing():
+def test_servers_get_by_id_missing() -> None:
     response = client.get("/servers/does_not_exist_at_all")
     assert response.status_code == 404
 
 
 # Catalog Route Tests
-def test_catalog_resolve():
+def test_catalog_resolve() -> None:
     response = client.get("/catalog/urn:socrata:data.cityofnewyork.us")
     assert response.status_code == 200
     res = response.json()
@@ -78,7 +78,7 @@ def test_catalog_resolve():
     assert res["host"] == "data.cityofnewyork.us"
 
 
-def test_catalog_dcat():
+def test_catalog_dcat() -> None:
     response = client.get("/catalog/urn:socrata:data.cityofnewyork.us/dcat")
     assert response.status_code == 200
     assert response.headers["content-type"] == "application/ld+json"

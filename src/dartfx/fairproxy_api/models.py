@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Any
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -28,14 +29,14 @@ class ServerInfo(BaseModel):
     host: str | None = Field(default=None)
     home: str | None = Field(default=None)
     platform: str | None = Field(default=None)
-    publisher: list[str] | None = Field(default_factory=list)
-    spatial: list[str] | None = Field(default_factory=list)
+    publisher: list[str] = Field(default_factory=list)
+    spatial: list[str] = Field(default_factory=list)
     version: str | None = Field(default=None)
-    postman: dict | None = Field(default=None)
+    postman: dict[str, Any] | None = Field(default=None)
 
     @model_validator(mode="before")
     @classmethod
-    def init_default_values(cls, values):
+    def init_default_values(cls, values: Any) -> Any:
         if values.get("host") is None:
             values["host"] = values.get("id")
         if values.get("home") is None:

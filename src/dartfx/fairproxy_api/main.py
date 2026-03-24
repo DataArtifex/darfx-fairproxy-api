@@ -21,7 +21,7 @@ app.include_router(get_router())
 
 
 @app.get("/status")
-async def status():
+async def status() -> dict[str, str]:
     """Health status API."""
     return {"status": "pass", "version": "0.1.0"}
 

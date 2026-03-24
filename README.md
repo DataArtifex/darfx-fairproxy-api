@@ -13,16 +13,18 @@
 
 ## Overview
 
-This project is about Foo and Bar...
+`fairproxy-api` is a FastAPI service that exposes FAIR-oriented metadata and native
+payloads for heterogeneous data platforms behind a single API surface.
 
+Current platform support is centered on Socrata datasets, including:
 
-## Bootstrapping a New Project
-
-If you are using this repository as a template, run the included rename script to set your project and package names:
-
-```bash
-./rename.sh "my-project-name" "my_package_name"
-```
+- Croissant metadata
+- DCAT metadata
+- DDI Codebook XML
+- DDI-CDIF graphs
+- Markdown dataset summaries
+- Postman collection generation
+- Platform-native dataset payloads through a common `/native` endpoint
 
 2. **Register with DeepWiki**: To ensure your documentation is indexed and discoverable by AI agents, register your new repository at [DeepWiki.com](https://deepwiki.com/).
 
@@ -76,13 +78,19 @@ From this project directory, install dependencies first:
 uv sync
 ```
 
-If you are working in a monorepo, use an explicit app directory so Python resolves `fairproxy_api` correctly:
+Start the API from this project directory:
 
 ```bash
 uv run uvicorn --app-dir src/dartfx fairproxy_api.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-Alternative:
+If you prefer to run it from the monorepo root, use the package-targeted form:
+
+```bash
+uv run --package dartfx-fairproxy-api uvicorn --app-dir dartfx-fairproxy-api/src/dartfx fairproxy_api.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Alternative using `PYTHONPATH`:
 
 ```bash
 PYTHONPATH=src/dartfx uv run uvicorn fairproxy_api.main:app --host 0.0.0.0 --port 8000 --reload
@@ -108,7 +116,35 @@ hatch run docs:build
 
 ## Usage
 
-...
+### Health Check
+
+```bash
+curl http://127.0.0.1:8000/status
+```
+
+### Example Socrata Metadata Endpoints
+
+Unified dataset route using a FAIR URI:
+
+```bash
+curl "http://127.0.0.1:8000/datasets/socrata:data.sfgov.org:wg3w-h783/ddi/codebook"
+curl "http://127.0.0.1:8000/datasets/socrata:data.sfgov.org:wg3w-h783/postman/collection"
+curl "http://127.0.0.1:8000/datasets/socrata:data.sfgov.org:wg3w-h783/markdown"
+curl "http://127.0.0.1:8000/datasets/socrata:data.sfgov.org:wg3w-h783/native"
+```
+
+Socrata-native route using host and dataset id:
+
+```bash
+curl "http://127.0.0.1:8000/socrata/data.sfgov.org/wg3w-h783/ddi/codebook"
+curl "http://127.0.0.1:8000/socrata/data.sfgov.org/wg3w-h783/native"
+```
+
+### Notes
+
+- `/datasets/{uri}/native` is the platform-agnostic native payload endpoint.
+- `/socrata/{host}/{dataset_id}/native` exposes the same native payload through the Socrata-specific route.
+- The older `/socrata` native suffix has been replaced by `/native`.
 
 ## Roadmap
 

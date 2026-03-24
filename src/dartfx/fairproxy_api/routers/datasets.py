@@ -81,3 +81,12 @@ async def get_postman_collection(
         response_data = json.dumps(collection_dict)
 
     return Response(content=response_data, media_type="application/json")
+
+
+@router.get("/{uri:path}/native")
+async def get_native(uri: str, adapter: Annotated[DatasetProvider, Depends(get_platform_adapter)]) -> Response:
+    """Platform-native metadata for this dataset."""
+    del uri
+    native_data = await adapter.get_native_data()
+    response_data = json.dumps(native_data, default=str)
+    return Response(content=response_data, media_type="application/json")

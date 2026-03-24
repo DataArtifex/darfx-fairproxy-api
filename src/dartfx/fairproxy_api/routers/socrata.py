@@ -1,3 +1,5 @@
+import json
+
 import httpx
 from fastapi import APIRouter, HTTPException, Request, Response
 
@@ -51,6 +53,14 @@ async def get_syntax(host: str, dataset_id: str, environment: str) -> Response:
     return Response(content=code, media_type="text/plain")
 
 
+@router.get("/{host}/{dataset_id}/native")
+async def get_native(host: str, dataset_id: str) -> Response:
+    """Socrata native metadata for this dataset."""
+    adapter = get_socrata_adapter(host, dataset_id)
+    native_data = await adapter.get_native_data()
+    return Response(content=json.dumps(native_data, default=str), media_type="application/json")
+
+
 @router.get("/{host}/{path:path}")
 async def view_proxy(host: str, path: str, request: Request) -> Response:
     """
@@ -64,18 +74,23 @@ async def view_proxy(host: str, path: str, request: Request) -> Response:
 
     async with httpx.AsyncClient() as client:
         try:
-            # Fastapi request.stream() would be ideal for streaming bodies here, but a direct proxy works for simple getters
+            # FastAPI request.stream() would be ideal for streaming bodies here,
+            # but a direct proxy works for simple getters.
             proxy_res = await client.request(
                 method=request.method, url=url, headers=headers, params=params, timeout=10.0
             )
             proxy_res.raise_for_status()
-        except httpx.HTTPStatusError as e:
-            status = e.response.status_code if e.response else 502
+        except httpx.HTTPStatusError as err:
+            status = err.response.status_code if err.response else 502
             raise HTTPException(
-                status_code=status if status >= 500 else 502, detail=f"Socrata proxy API exception: {str(e)}"
-            )
-        except httpx.RequestError as e:
-            raise HTTPException(status_code=502, detail=f"Failed connecting to Socrata host proxy {host}: {str(e)}")
+                status_code=status if status >= 500 else 502,
+                detail=f"Socrata proxy API exception: {err}",
+            ) from err
+        except httpx.RequestError as err:
+            raise HTTPException(
+                status_code=502,
+                detail=f"Failed connecting to Socrata host proxy {host}: {err}",
+            ) from err
 
     # Forward the content, passing back upstream headers directly (omitting chunking identifiers)
     excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]

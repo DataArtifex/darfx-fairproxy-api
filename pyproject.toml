@@ -19,6 +19,9 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
 ]
 dependencies = [
+  "dartfx-ddi",
+  "dartfx-postman",
+  "dartfx-socrata",
     "fastapi>=0.135.1",
     "httpx>=0.28.1",
     "lxml>=6.0.2",
@@ -54,6 +57,8 @@ dev = [
   "python-dotenv>=1.0.0",
   "ruff>=0.3.0",
   "pre-commit>=3.0.0",
+  "types-pyyaml>=6.0.12.20250915",
+  "lxml-stubs>=0.5.1",
 ]
 docs = [
   "sphinx>=7.0.0",
@@ -135,3 +140,7 @@ quote-style = "double"
 indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+ignore_missing_imports = true

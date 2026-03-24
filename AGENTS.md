@@ -4,7 +4,7 @@ Welcome, fellow AI. This file provides context and instructions for working on t
 
 ## Project Specifications
 
-This repository contains the `fair-proxy-api` (package name `fairproxy_api`), a FastAPI application that acts as a FAIRification proxy over heterogeneous datastores (Socrata, MTNA RDS, US Census).
+This repository contains the `fairproxy-api` (package name `fairproxy_api`), a FastAPI application that acts as a FAIRification proxy over heterogeneous datastores (Socrata, MTNA RDS, US Census).
 
 The core architecture relies on an **Adapter Pattern** to resolve dataset URIs and dynamically instantiate the correct data provider (Adapter) to process requests for metadata like DCAT, MLCommons Croissant, and DDI-CDIF graphs utilizing the `dartfx` package under the hood.
 

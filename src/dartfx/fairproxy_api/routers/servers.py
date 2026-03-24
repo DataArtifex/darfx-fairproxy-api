@@ -12,11 +12,11 @@ router = APIRouter(prefix="/servers", tags=["Servers"])
 @router.get("/")
 def search_servers(
     repository: Annotated[ServerRepository, Depends(get_server_repository)],
-    platform: Platform | None = Query(None, description="Filter servers by platform type"),
+    platform: Annotated[Platform | None, Query(description="Filter servers by platform type")] = None,
 ) -> list[ServerInfo]:
     """Retrieve backend servers."""
     servers = repository.get_all(platform=platform)
-    return sorted(servers, key=lambda server: server.name.lower())
+    return sorted(servers, key=lambda server: (server.name or "").lower())
 
 
 @router.get("/{server_id}")

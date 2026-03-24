@@ -23,5 +23,5 @@ repos:
     rev: v1.15.0
     hooks:
       - id: mypy
-        additional_dependencies: [pydantic, requests, types-requests]
+        additional_dependencies: [pydantic, requests, types-requests, types-PyYAML, fastapi, lxml-stubs]
         args: [--strict, --ignore-missing-imports]

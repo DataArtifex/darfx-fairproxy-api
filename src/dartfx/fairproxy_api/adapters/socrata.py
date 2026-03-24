@@ -1,31 +1,81 @@
 import json
+from importlib import import_module
+from typing import Any, cast
 
-# Using dartfx directly assuming it's installed as an internal dependency
 from fairproxy_api.adapters.base import DatasetProvider
 from fastapi import HTTPException
 from lxml import etree
 from rdflib import Graph
 
+SOCRATA_MODULE = "dartfx.socrata"
+DDI_MODULE = "dartfx.ddi.ddicodebook"
+DDI_UTILS_MODULE = "dartfx.ddi.ddicodebook.utils"
+POSTMAN_SOCRATA_MODULE = "dartfx.postman.socrata"
 
-class SocrataServerMock:
-    def __init__(self, host: str):
-        self.host = host
+
+def _missing_dartfx_dependency_error(err: Exception) -> HTTPException:
+    return HTTPException(
+        status_code=501,
+        detail=(
+            "Socrata adapter dependencies are unavailable in this environment. "
+            "Required modules include 'dartfx.socrata', 'dartfx.ddi.ddicodebook', "
+            "and 'dartfx.postman.socrata'. "
+            f"Original import error: {err}"
+        ),
+    )
 
 
-class SocrataDatasetMock:
-    def __init__(self, server, id: str):
-        self.id = id
-        self.variables = []
+def _import_socrata_server_class() -> Any:
+    try:
+        module = import_module(SOCRATA_MODULE)
+        return module.SocrataServer
+    except (ModuleNotFoundError, AttributeError) as err:
+        raise _missing_dartfx_dependency_error(err) from err
 
-    def get_croissant(self):
-        class MockCroissant:
-            def to_json(self):
-                return {"mock": "croissant"}
 
-        return MockCroissant()
+def _import_socrata_dataset_class() -> Any:
+    try:
+        module = import_module(SOCRATA_MODULE)
+        return module.SocrataDataset
+    except (ModuleNotFoundError, AttributeError) as err:
+        raise _missing_dartfx_dependency_error(err) from err
 
-    def get_ddi_codebook(self):
-        return "<codebook>mock xml</codebook>"
+
+def _import_socrata_dcat_generator() -> Any:
+    try:
+        module = import_module(SOCRATA_MODULE)
+        return module.DcatGenerator
+    except (ModuleNotFoundError, AttributeError) as err:
+        raise _missing_dartfx_dependency_error(err) from err
+
+
+def _import_loadxmlstring() -> Any:
+    try:
+        module = import_module(DDI_MODULE)
+        return module.loadxmlstring
+    except (ModuleNotFoundError, AttributeError) as err:
+        raise _missing_dartfx_dependency_error(err) from err
+
+
+def _import_codebook_to_cdif_graph() -> Any:
+    try:
+        module = import_module(DDI_UTILS_MODULE)
+        return module.codebook_to_cdif_graph
+    except (ModuleNotFoundError, AttributeError) as err:
+        raise _missing_dartfx_dependency_error(err) from err
+
+
+def _import_socrata_postman_collection_generator() -> Any:
+    try:
+        module = import_module(POSTMAN_SOCRATA_MODULE)
+        return module.SocrataPostmanCollectionGenerator
+    except (ModuleNotFoundError, AttributeError) as err:
+        raise _missing_dartfx_dependency_error(err) from err
+
+
+def create_socrata_server(host: str) -> Any:
+    socrata_server_class = _import_socrata_server_class()
+    return socrata_server_class(host=host)
 
 
 class SocrataAdapter(DatasetProvider):
@@ -34,42 +84,71 @@ class SocrataAdapter(DatasetProvider):
     Wraps the dartfx logic for Socrata into asynchronous FastAPI-compatible methods.
     """
 
-    def __init__(self, server: SocrataServerMock, dataset_id: str):
+    def __init__(self, server: Any, dataset_id: str):
         self.server = server
         self.dataset_id = dataset_id
-        # We lazily initialize the SocrataDataset only when needed, as it likely triggers network calls.
-        self._dataset: SocrataDatasetMock | None = None
+        self._dataset: Any | None = None
 
     @property
-    def dataset(self) -> SocrataDatasetMock:
+    def dataset(self) -> Any:
         if self._dataset is None:
             try:
-                self._dataset = SocrataDatasetMock(self.server, self.dataset_id)
-            except Exception as e:
+                socrata_dataset_class = _import_socrata_dataset_class()
+                self._dataset = socrata_dataset_class(server=self.server, id=self.dataset_id)
+            except HTTPException:
+                raise
+            except Exception as err:
                 raise HTTPException(
                     status_code=404,
-                    detail=f"Dataset {self.dataset_id} could not be initialized or found on Socrata host {self.server.host}. Error: {e}",
-                )
+                    detail=(
+                        f"Dataset {self.dataset_id} could not be initialized or found on "
+                        f"Socrata host {self.server.host}. Error: {err}"
+                    ),
+                ) from err
         return self._dataset
 
-    async def get_croissant(self) -> dict:
+    async def get_croissant(self) -> dict[str, Any]:
         try:
             croissant = self.dataset.get_croissant()
             if croissant is None:
                 raise HTTPException(status_code=500, detail="Failed to generate Croissant metadata.")
-            return croissant.to_json()
+            return cast(dict[str, Any], croissant.to_json())
         except HTTPException:
             raise
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"An error occurred generating Croissant: {e}")
+        except Exception as err:
+            raise HTTPException(status_code=500, detail=f"An error occurred generating Croissant: {err}") from err
 
     async def get_dcat_graph(self) -> Graph:
-        g = Graph()
-        return g
+        try:
+            dcat_generator_class = _import_socrata_dcat_generator()
+            generator = dcat_generator_class(self.dataset.server)
+            generator.add_dataset(self.dataset.id)
+            return cast(Graph, generator.get_graph())
+        except HTTPException:
+            raise
+        except Exception as err:
+            raise HTTPException(status_code=500, detail=f"An error occurred generating DCAT: {err}") from err
 
     async def get_ddi_cdif_graph(self, use_skos: bool = True, cdif_variable_count_limit: int = 100) -> Graph:
-        g = Graph()
-        return g
+        try:
+            if len(self.dataset.variables) > cdif_variable_count_limit:
+                raise HTTPException(
+                    status_code=413,
+                    detail=(
+                        "This service does not support datasets with more than "
+                        f"{cdif_variable_count_limit} variables due to size limitations."
+                    ),
+                )
+
+            xml_content = self.dataset.get_ddi_codebook()
+            loadxmlstring = _import_loadxmlstring()
+            codebook_to_cdif_graph = _import_codebook_to_cdif_graph()
+            codebook = loadxmlstring(xml_content)
+            return cast(Graph, codebook_to_cdif_graph(codebook, use_skos=use_skos))
+        except HTTPException:
+            raise
+        except Exception as err:
+            raise HTTPException(status_code=500, detail=f"An error occurred generating DDI-CDIF: {err}") from err
 
     async def get_ddi_codebook_xml(self, pretty: bool = False) -> str:
         try:
@@ -86,42 +165,57 @@ class SocrataAdapter(DatasetProvider):
                 except etree.XMLSyntaxError:
                     # Fallback to raw if pretty printing fails
                     pass
-            return xml_content
+            return cast(str, xml_content)
         except HTTPException:
             raise
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"An error occurred generating DDI Codebook: {e}")
+        except Exception as err:
+            raise HTTPException(status_code=500, detail=f"An error occurred generating DDI Codebook: {err}") from err
 
     async def get_markdown(self) -> str:
         try:
             md_content = self.dataset.get_markdown()
             if md_content is None:
                 raise HTTPException(status_code=500, detail="Markdown response is unexpectedly None.")
-            return md_content
+            return cast(str, md_content)
         except HTTPException:
             raise
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"An error occurred generating Markdown: {e}")
+        except Exception as err:
+            raise HTTPException(status_code=500, detail=f"An error occurred generating Markdown: {err}") from err
 
-    async def get_postman_collection(self) -> dict:
+    async def get_postman_collection(self) -> dict[str, Any]:
         try:
-            generator = SocrataPostmanCollectionGenerator(dataset=self.dataset)
+            postman_generator_class = _import_socrata_postman_collection_generator()
+            generator = postman_generator_class(dataset=self.dataset)
             collection = generator.generate()
             if collection is None:
                 raise HTTPException(status_code=500, detail="Postman collection object is None after generation.")
-            # Converting to raw dict so the router can deal with formatting (pretty/ugly)
-            collection_json_str = collection.model_dump_json(exclude_none=True)
-            return json.loads(collection_json_str)
+
+            if hasattr(collection, "to_dict"):
+                return cast(dict[str, Any], collection.to_dict())
+            if hasattr(collection, "model_dump"):
+                return cast(dict[str, Any], collection.model_dump(exclude_none=True))
+
+            collection_json_str = json.dumps(collection, default=str)
+            return cast(dict[str, Any], json.loads(collection_json_str))
         except HTTPException:
             raise
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"An error occurred generating Postman collection: {e}")
+        except Exception as err:
+            raise HTTPException(
+                status_code=500,
+                detail=f"An error occurred generating Postman collection: {err}",
+            ) from err
 
-    async def get_native_socrata_data(self) -> dict:
+    async def get_native_socrata_data(self) -> dict[str, Any]:
         try:
-            return self.dataset.data
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"An error occurred retrieving Socrata native data: {e}")
+            return cast(dict[str, Any], self.dataset.data)
+        except Exception as err:
+            raise HTTPException(
+                status_code=500,
+                detail=f"An error occurred retrieving Socrata native data: {err}",
+            ) from err
+
+    async def get_native_data(self) -> dict[str, Any]:
+        return await self.get_native_socrata_data()
 
     async def get_code_snippet(self, environment: str) -> str:
         try:
@@ -129,12 +223,17 @@ class SocrataAdapter(DatasetProvider):
             if code is None:
                 raise HTTPException(
                     status_code=501,
-                    detail=f"Code snippet for environment '{environment}' is not available or not implemented for this dataset.",
+                    detail=(
+                        f"Code snippet for environment '{environment}' is not available "
+                        "or not implemented for this dataset."
+                    ),
                 )
-            return code
+            return cast(str, code)
+        except ValueError as err:
+            raise HTTPException(status_code=501, detail=str(err)) from err
         except HTTPException:
             raise
-        except Exception as e:
+        except Exception as err:
             raise HTTPException(
-                status_code=500, detail=f"An error occurred getting code snippet for env '{environment}': {e}"
-            )
+                status_code=500, detail=f"An error occurred getting code snippet for env '{environment}': {err}"
+            ) from err

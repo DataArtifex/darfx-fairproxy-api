@@ -42,7 +42,10 @@ def get_rdf_format(request: Request) -> tuple[str, str]:
         else:
             raise HTTPException(
                 status_code=406,
-                detail="Format parameter must be 'json', 'json-ld', 'n3', 'ntriples', 'nt', 'pretty-xml', 'trig', 'turtle', 'ttl',  xml",
+                detail=(
+                    "Format parameter must be 'json', 'json-ld', 'n3', 'ntriples', 'nt', "
+                    "'pretty-xml', 'trig', 'turtle', 'ttl', 'xml'"
+                ),
             )
     elif accept_header:
         accept_header = accept_header.lower()
@@ -74,7 +77,7 @@ def resolve_resource(uri: str) -> ResourceInfo:
                 platform = Platform[platform_id.upper()]
                 resource_info.platform = platform
             except KeyError:
-                raise ValueError(f"Unknown platform ID: {platform_id}")
+                raise ValueError(f"Unknown platform ID: {platform_id}") from None
 
             resource_info.host = tokens.pop(0)
             if resource_info.platform == Platform.SOCRATA:
