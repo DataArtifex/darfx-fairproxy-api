@@ -1,0 +1,531 @@
+#
+# Temporary server knowledge base
+#
+servers:
+  api.census.gov:
+    platform: uscensus
+    name: U.S. Census Bureau
+    description: The official API endpoint for the U.S. Census Bureau, providing access to a wide range of demographic, economic, and geographic datasets to support research, policy making, and public information needs.
+    publisher:
+    - U.S. Census Bureau
+    spatial:
+    - USA
+    - http://sws.geonames.org/6252001
+#  auditor-ca.demo.socrata.com:
+#    platform: socrata
+#  austin-metro.demo.socrata.com:
+#    platform: socrata
+#  bronx.lehman.cuny.edu:
+#    platform: socrata
+#  bythenumbers.sco.ca.gov:
+#    platform: socrata
+#  ca-sco.demo.socrata.com:
+#    platform: socrata
+#  camden.demo.socrata.com:
+#    platform: socrata
+#  carsoncity.data.socrata.com:
+#    platform: socrata
+#  celebratingcities.data.socrata.com:
+#    platform: socrata
+#  citydata.mesaaz.gov:
+#    platform: socrata
+#  cityofchesapeake.data.socrata.com:
+#    platform: socrata
+#  coa-internal.demo.socrata.com:
+#    platform: socrata
+#  columbiasc.data.socrata.com:
+#    platform: socrata
+#  controllerdata.lacity.org:
+#    platform: socrata
+#    name: Los Angeles Open Data Portal
+#    publisher:
+#    - City of Los Angeles
+#    spatial:
+#    - Los Angeles, California, USA
+#    - http://sws.geonames.org/5368361
+#  corstat.coronaca.gov:
+#    platform: socrata
+#  covid19.buffalony.gov:
+#    platform: socrata
+#  cthru.data.socrata.com:
+#    platform: socrata
+#  dashboard.plano.gov:
+#    platform: socrata
+#  data.albanyny.gov:
+#    platform: socrata
+#  data.auburnwa.gov:
+#    platform: socrata
+#  data.bayareametro.gov:
+#    platform: socrata
+#  data.bloomington.in.gov:
+#    platform: socrata
+#  data.brla.gov:
+#    platform: socrata
+#  data.bts.gov:
+#    platform: socrata
+  data.calgary.ca:
+    platform: socrata
+    name: Calgary Open Data
+    description: The official open data portal for the City of Calgary, providing public access to datasets to support transparency, innovation, and community engagement.
+    publisher:
+    - City of Calgary
+    spatial:
+    - Calgary, Alberta, Canada
+    - http://sws.geonames.org/5913490
+    postman:
+      workspace: 37739b8d-a7fd-4a2f-aa8e-883ce652a78e
+#  data.cambridgema.gov:
+#    platform: socrata
+  data.cdc.gov:
+    platform: socrata
+    name: Centers for Disease Control and Prevention
+    publisher:
+    - Centers for Disease Control and Prevention (CDC)
+    spatial:
+    - USA
+    - http://sws.geonames.org/6252001
+#  data.cincinnati-oh.gov:
+#    platform: socrata
+#  data.cityofberkeley.info:
+#    platform: socrata
+  data.cityofchicago.org:
+    platform: socrata
+    name: Chicago Open Data
+    description: The official open data portal for the City of Chicago, providing public access to datasets from city departments to promote transparency, innovation, and civic engagement.
+    publisher:
+    - City of Chicago
+    spatial:
+    - Chicago, Illinois, USA
+    - http://sws.geonames.org/4887398
+#  data.cityofgainesville.org:
+#    platform: socrata
+  data.cityofnewyork.us:
+    platform: socrata
+    name: New York City OpenData
+    description: The official open data portal for New York City, providing public access to datasets from city agencies and organizations to promote transparency, innovation, and civic engagement.
+    publisher:
+    - City of New York
+    spatial:
+    - New York, New York, USA
+    - http://sws.geonames.org/5128581
+    postman:
+      workspace: 5af816f6-57e3-48d9-bfb6-4851ff5f79cc
+#  data.cityoforlando.net:
+#    platform: socrata
+  data.colorado.gov:
+    platform: socrata
+    name: Colorado Information Workspace
+    description: The official open data portal for the State of Colorado, providing public access to datasets from state agencies to promote transparency, innovation, and public engagement.
+    publisher:
+    - State of Colorado
+    spatial:
+    - Colorado, USA
+    - http://sws.geonames.org/5417618
+#  data.countyofnapa.org:
+#    platform: socrata
+#  data.countyofriverside.us:
+#    platform: socrata
+#  data.cstx.gov:
+#    platform: socrata
+  data.ct.gov:
+    platform: socrata
+    name: Connecticut Open Data
+    description: The official open data portal for the State of Connecticut, providing public access to datasets from state agencies to promote transparency, innovation, and public engagement.
+    publisher:
+    - Connecticut State Agencies
+    spatial:
+    - Connecticut, USA
+
+#  data.culvercity.org:
+#    platform: socrata
+#  data.datacenterresearch.org:
+#    platform: socrata
+#  data.delaware.gov:
+#    platform: socrata
+#  data.dumfriesva.gov:
+#    platform: socrata
+    data.edmonton.ca:
+      platform: socrata
+      name: City of Edmonton's Open Data Portal
+      description: The official open data portal for the City of Edmonton, providing public access to a wide range of datasets to support transparency, innovation, and community engagement.
+      publisher:
+      - City of Edmonton
+      spatial:
+      - Edmonton, Alberta, Canada
+      - http://sws.geonames.org/5946768
+#  data.energystar.gov:
+#    platform: socrata
+#  data.everettwa.gov:
+#    platform: socrata
+#  data.fortworthtexas.gov:
+#    platform: socrata
+#  data.framinghamma.gov:
+#    platform: socrata
+#  data.fultoncountyga.gov:
+#    platform: socrata
+#  data.honolulu.gov:
+#    platform: socrata
+#  data.kcmo.org:
+#    platform: socrata
+#  data.kingcounty.gov:
+#    platform: socrata
+  data.lacity.org:
+    platform: socrata
+    name: Los Angeles Open Data Portal
+    description: The official open data portal for the City of Los Angeles, providing public access to datasets from city departments to promote transparency, innovation, and civic engagement.
+    publisher:
+    - City of Los Angeles
+    spatial:
+    - Los Angeles, California, USA
+    - http://sws.geonames.org/5368361
+    postman:
+      workspace: 1e118583-cb8c-4f82-83d9-9c4dcb46b0c1
+#  data.littlerock.gov:
+#    platform: socrata
+#  data.macoupincountyil.gov:
+#    platform: socrata
+#  data.marincounty.org:
+#    platform: socrata
+#  data.memphistn.gov:
+#    platform: socrata
+#  data.mesaaz.gov:
+#    platform: socrata
+#  data.miamigov.com:
+#    platform: socrata
+#  data.michigan.gov:
+#    platform: socrata
+#  data.mmcp.ms.gov:
+#    platform: socrata
+#  data.mo.gov:
+#    platform: socrata
+#  data.montgomerycountymd.gov:
+#    platform: socrata
+#  data.montgomeryschoolsmd.org:
+#    platform: socrata
+#  data.nasa.gov:
+#    platform: socrata
+#  data.nj.gov:
+#    platform: socrata
+#  data.nola.gov:
+#    platform: socrata
+#  data.norfolk.gov:
+#    platform: socrata
+#  data.novascotia.ca:
+#    platform: socrata
+  data.ny.gov:
+    platform: socrata
+    name: New York State Open Data
+    description: The official open data portal for the State of New York, providing public access to datasets from state agencies to promote transparency, innovation, and public engagement.
+    publisher:
+    - State of New York
+    spatial:
+    - New York, USA
+    - http://sws.geonames.org/5128638
+#  data.oaklandca.gov:
+#    platform: socrata
+#  data.ohiocourtofclaims.gov:
+#    platform: socrata
+#  data.orcities.org:
+#    platform: socrata
+  data.oregon.gov:
+    platform: socrata
+    name: Oregon Open Data Portal
+    description: The official open data portal for the State of Oregon, providing public access to datasets from state agencies to promote transparency, innovation, and public engagement.
+    publisher:
+    - State of Oregon
+    spatial:
+    - Oregon, USA
+    - http://sws.geonames.org/5744337
+  data.pa.gov:
+    platform: socrata
+    name: Open Data Pennsylvania
+    description: The official open data portal for the Commonwealth of Pennsylvania, providing public access to datasets from state agencies to promote transparency, innovation, and public engagement.
+    publisher:
+    - Commonwealth of Pennsylvania
+    spatial:
+    - Pennsylvania, USA
+#  data.princegeorgescountymd.gov:
+#    platform: socrata
+#  data.providenceri.gov:
+#    platform: socrata
+#  data.qac.org:
+#    platform: socrata
+#  data.ramseycounty.us:
+#    platform: socrata
+#  data.readingpa.gov:
+#    platform: socrata
+#  data.richmondgov.com:
+#    platform: socrata
+#  data.roseville.ca.us:
+#    platform: socrata
+#  data.sccgov.org:
+#    platform: socrata
+  data.sfgov.org:
+    platform: socrata
+    name: San Francisco Open Data
+    description: The official open data portal for the City and County of San Francisco, providing public access to datasets from city departments to promote transparency, innovation, and community engagement.
+    publisher:
+    - City of San Francisco
+    spatial:
+    - San Francisco, California, USA
+    - http://sws.geonames.org/5391959
+    postman:
+      workspace: f23ce5c7-a6fb-40e4-9fe3-9fa1538680f5
+#  data.smcgov.org:
+#    platform: socrata
+#  data.somervillema.gov:
+#    platform: socrata
+#  data.sonomacounty.ca.gov:
+#    platform: socrata
+#  data.sustainablesm.org:
+#    platform: socrata
+  data.texas.gov:
+    platform: socrata
+    name: Texas Open Data Portal
+    description: The official open data portal for the State of Texas, providing public access to datasets from state agencies to promote transparency, innovation, and public engagement.
+    publisher:
+    - State of Texas
+    spatial:
+    - Texas, USA
+    - http://sws.geonames.org/4736286
+#  data.tompsc.com:
+#    platform: socrata
+#  data.urbanaillinois.us:
+#    platform: socrata
+#  data.vermont.gov:
+#    platform: socrata
+  data.wa.gov:
+    platform: socrata
+    name: Washington State Open Data Portal
+    description: The official open data portal for the State of Washington, providing public access to datasets from state agencies to promote transparency, innovation, and public engagement.
+    publisher:
+    - Washington state government
+    spatial:
+    - Washington, USA
+    - http://sws.geonames.org/5815135
+
+#  data.waterpointdata.org:
+#    platform: socrata
+#  data.wcad.org:
+#    platform: socrata
+#  data.weho.org:
+#    platform: socrata
+  data.winnipeg.ca:
+    platform: socrata
+    name: City of Winnipeg Open Data Portal
+    description: The official open data portal for the City of Winnipeg, providing public access to datasets to support transparency, innovation, and community engagement.
+    publisher:
+    - City of Winnipeg
+    spatial:
+    - Winnipeg, Manitoba, Canada
+    - http://sws.geonames.org/6183235
+#  datacatalog.cookcountyil.gov:
+#    platform: socrata
+#  datadiscovery.nlm.nih.gov:
+#    platform: socrata
+#  datahub.austintexas.gov:
+#    platform: socrata
+#  datahub.hhs.gov:
+#    platform: socrata
+#  datahub.smcgov.org:
+#    platform: socrata
+#  datahub.transportation.gov:
+#    platform: socrata
+#  datahub.usac.org:
+#    platform: socrata
+#  datahub.usaid.gov:
+#    platform: socrata
+  datos.gov.co:
+    platform: socrata
+    name: Datos abiertos de Colombia
+    description: El portal oficial de datos abiertos de Colombia, que proporciona acceso público a conjuntos de datos gubernamentales para fomentar la transparencia, la innovación y la participación ciudadana.
+    publisher:
+    - Ministerio de Tecnologías de la Información y las Comunicaciones
+    spatial:
+    - Colombia
+    - http://sws.geonames.org/3686110
+#  edmondok.data.socrata.com:
+#    platform: socrata
+#  educationtocareer.data.mass.gov:
+#    platform: socrata
+#  finances.worldbank.org:
+#    platform: socrata
+#  fiscalfocus.pittsburghpa.gov:
+#    platform: socrata
+#  fortlauderdale.data.socrata.com:
+#    platform: socrata
+#  fusioncenter.nhit.org:
+#    platform: socrata
+#  gainesville-govstat.demo.socrata.com:
+#    platform: socrata
+#  gnb.socrata.com:
+#    platform: socrata
+#  health.data.ny.gov:
+#    platform: socrata
+#  healthdata.nj.gov:
+#    platform: socrata
+#  healthdata.tn.gov:
+#    platform: socrata
+#  hicscdata.hawaii.gov:
+#    platform: socrata
+#  highways.hidot.hawaii.gov:
+#    platform: socrata
+#  humboldtgov.data.socrata.com:
+#    platform: socrata
+#  impact.stlouisco.com:
+#    platform: socrata
+#  internal-ct.data.socrata.com:
+#    platform: socrata
+#  internal-sandiegocounty.data.socrata.com:
+#    platform: socrata
+#  internal.chattadata.org:
+#    platform: socrata
+#  internal.open.piercecountywa.gov:
+#    platform: socrata
+#  internal.opendata.clermontauditor.org:
+#    platform: socrata
+#  janesville.data.socrata.com:
+#    platform: socrata
+#  mesa-az.demo.socrata.com:
+#    platform: socrata
+#  mi-treasury.data.socrata.com:
+#    platform: socrata
+#  michigan-data.demo.socrata.com:
+#    platform: socrata
+#  mischooldata.data.socrata.com:
+#    platform: socrata
+#  mydata.iadb.org:
+#    platform: socrata
+#  mydata.iowa.gov:
+#    platform: socrata
+#  ontario.demo.socrata.com:
+#    platform: socrata
+#  open.piercecountywa.gov:
+#    platform: socrata
+#  opendata.fcc.gov:
+#    platform: socrata
+#  opendata.fcgov.com:
+#    platform: socrata
+#  opendata.howardcountymd.gov:
+#    platform: socrata
+  opendata.maryland.gov:
+    platform: socrata
+    name: Maryland's Open Data Portal
+    description: The official open data portal for the State of Maryland, providing public access to datasets from state agencies to promote transparency, innovation, and public engagement.
+    publisher:
+    - Maryland Council on Open Data
+    spatial:
+    - Maryland, USA
+    - http://sws.geonames.org/4361885
+  opendata.utah.gov:
+    platform: socrata
+    name: State of Utah Open Data Catalog
+    description: The official open data portal for the State of Utah, providing public access to datasets from state agencies to promote transparency, innovation, and public engagement.
+    publisher:
+    - State of Utah
+    spatial:
+    - Utah, United States
+    - http://sws.geonames.org/5549030
+#  opennassau.nassaucountyny.gov:
+#    platform: socrata
+  public.richdataservices.com:
+    platform: mtnards
+    name: MTNA RDS Public Data Center
+    description: The public data center operated by Metadata Technology North America, providing access to a wide range of high-value datasets and services to support research, analysis, and data-driven decision making.
+    publisher:
+    - Metadata Technology North America
+    - https://www.mtna.us
+    spatial:
+    - Earth
+    - http://sws.geonames.org/6295630
+#  performance-archive.cookcountyil.gov:
+#    platform: socrata
+#  performance.ci.janesville.wi.us:
+#    platform: socrata
+#  performance.cityofcamas.us:
+#    platform: socrata
+#  performance.cityofdavenportiowa.com:
+#    platform: socrata
+#  performance.cityofhenderson.com:
+#    platform: socrata
+#  performance.cityofrc.us:
+#    platform: socrata
+#  performance.commerce.gov:
+#    platform: socrata
+#  performance.cookcountyil.gov:
+#    platform: socrata
+#  performance.franklintn.gov:
+#    platform: socrata
+#  performance.fultoncountyga.gov:
+#    platform: socrata
+#  performance.princegeorgescountymd.gov:
+#    platform: socrata
+#  performance.providenceri.gov:
+#    platform: socrata
+#  performance.seattle.gov:
+#    platform: socrata
+#  performance.smcgov.org:
+#    platform: socrata
+#  policedata.coloradosprings.gov:
+#    platform: socrata
+#  policeview.johnscreekga.gov:
+#    platform: socrata
+#  priv-data.ojp.usdoj.gov:
+#    platform: socrata
+#  ptsd-va.data.socrata.com:
+#    platform: socrata
+  rds.highvaluedata.net:
+    platform: mtnards
+    name: HVDNet Rich Data Services
+    description: The official data portal for the High-Value Data Network, providing access to a curated collection of high-value datasets and services to support research, analysis, and data-driven decision making.
+    publisher:
+    - High-Value Data Network
+    - https://www.hvdnet.org
+    spatial:
+    - Earth
+    - http://sws.geonames.org/6295630
+    postman:
+      workspace: 8fffad25-8c83-4f7e-a5ea-691cd4f81277
+#  sharefulton.fultoncountyga.gov:
+#    platform: socrata
+#  shawneesheriff.data.socrata.com:
+#    platform: socrata
+#  siouxfalls.data.socrata.com:
+#    platform: socrata
+#  stat.montgomerycountymd.gov:
+#    platform: socrata
+#  stat.stpete.org:
+#    platform: socrata
+#  stateofalaska.data.socrata.com:
+#    platform: socrata
+#  stutsman.data.socrata.com:
+#    platform: socrata
+#  transparencyarchive.michigan.gov:
+#    platform: socrata
+#  usc.data.socrata.com:
+#    platform: socrata
+#  www.chattadata.org:
+#    platform: socrata
+#  www.dallasopendata.com:
+#    platform: socrata
+  data.act.gov.au:
+    platform: socrata
+    name: Australian Capital Territory Open Data Portal
+    description: The official open data portal for the Australian Capital Territory, providing public access to datasets to support transparency, innovation, and community engagement.
+    publisher:
+    - Australian Capital Territory
+    spatial:
+      - Australian Capital Territory, Australia
+      - https://sws.geonames.org/2172517
+  data.va.gov:
+    platform: socrata
+    name: Department of Veterans Affairs Open Data Portal
+    publisher:
+    - Department of Veterans Affairs
+    spatial:
+    - Virginia, USA
+    - https://sws.geonames.org/6254928
+#  www.thedatazone.ca:
+#    platform: socrata
+#  www.transparentrichmond.org:
+#    platform: socrata
