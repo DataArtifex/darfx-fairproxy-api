@@ -39,6 +39,15 @@ curl http://127.0.0.1:8000/status
 
 ## Endpoint Examples
 
+### Current Top-Level Routes
+
+- `/status` for health status
+- `/servers` for configured data server discovery
+- `/datasets/{uri}` for unified dataset metadata and native payloads
+- `/socrata/{host}/{dataset_id}` for Socrata-specific dataset access
+
+Generic routes like `/catalog`, `/resources`, and `/vocab` are intentionally not exposed in the current build.
+
 ### Socrata URI Format
 
 The unified datasets endpoint expects Socrata URIs in this format:

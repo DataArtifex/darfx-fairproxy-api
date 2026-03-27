@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 
 from fairproxy_api.adapters.base import DatasetProvider
-from fairproxy_api.dependencies import get_platform_adapter
+from fairproxy_api.dependencies import get_dataset_adapter
 from fairproxy_api.utils import get_rdf_format
 
 router = APIRouter(prefix="/datasets", tags=["Unified Datasets"])
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/datasets", tags=["Unified Datasets"])
 
 @router.get("/{uri:path}/croissant")
 async def get_croissant(
-    request: Request, adapter: Annotated[DatasetProvider, Depends(get_platform_adapter)]
+    request: Request, adapter: Annotated[DatasetProvider, Depends(get_dataset_adapter)]
 ) -> Response:
     """MLCommons Croissant metadata for this dataset."""
     format, mimetype = get_rdf_format(request)
@@ -30,7 +30,7 @@ async def get_croissant(
 
 
 @router.get("/{uri:path}/dcat")
-async def get_dcat(request: Request, adapter: Annotated[DatasetProvider, Depends(get_platform_adapter)]) -> Response:
+async def get_dcat(request: Request, adapter: Annotated[DatasetProvider, Depends(get_dataset_adapter)]) -> Response:
     """W3C DCAT metadata for this dataset."""
     graph = await adapter.get_dcat_graph()
     format, mimetype = get_rdf_format(request)
@@ -41,7 +41,7 @@ async def get_dcat(request: Request, adapter: Annotated[DatasetProvider, Depends
 
 @router.get("/{uri:path}/ddi/cdif")
 async def get_ddi_cdif(
-    request: Request, adapter: Annotated[DatasetProvider, Depends(get_platform_adapter)], use_skos: bool = True
+    request: Request, adapter: Annotated[DatasetProvider, Depends(get_dataset_adapter)], use_skos: bool = True
 ) -> Response:
     """DDI-CDI metadata for this dataset based on the CDIF Profile."""
     graph = await adapter.get_ddi_cdif_graph(use_skos=use_skos)
@@ -53,7 +53,7 @@ async def get_ddi_cdif(
 
 @router.get("/{uri:path}/ddi/codebook")
 async def get_ddi_codebook(
-    adapter: Annotated[DatasetProvider, Depends(get_platform_adapter)], pretty: bool = False
+    adapter: Annotated[DatasetProvider, Depends(get_dataset_adapter)], pretty: bool = False
 ) -> Response:
     """DDI Codebook metadata for this dataset."""
     xml_content = await adapter.get_ddi_codebook_xml(pretty=pretty)
@@ -61,7 +61,7 @@ async def get_ddi_codebook(
 
 
 @router.get("/{uri:path}/markdown")
-async def get_markdown(adapter: Annotated[DatasetProvider, Depends(get_platform_adapter)]) -> Response:
+async def get_markdown(adapter: Annotated[DatasetProvider, Depends(get_dataset_adapter)]) -> Response:
     """Markdown-formatted description of this dataset."""
     md_content = await adapter.get_markdown()
     return Response(content=md_content, media_type="text/markdown")
@@ -69,7 +69,7 @@ async def get_markdown(adapter: Annotated[DatasetProvider, Depends(get_platform_
 
 @router.get("/{uri:path}/postman/collection")
 async def get_postman_collection(
-    adapter: Annotated[DatasetProvider, Depends(get_platform_adapter)], pretty: bool = False
+    adapter: Annotated[DatasetProvider, Depends(get_dataset_adapter)], pretty: bool = False
 ) -> Response:
     """A generated data-centric Postman collection for this dataset."""
     collection_dict = await adapter.get_postman_collection()
@@ -84,7 +84,7 @@ async def get_postman_collection(
 
 
 @router.get("/{uri:path}/native")
-async def get_native(uri: str, adapter: Annotated[DatasetProvider, Depends(get_platform_adapter)]) -> Response:
+async def get_native(uri: str, adapter: Annotated[DatasetProvider, Depends(get_dataset_adapter)]) -> Response:
     """Platform-native metadata for this dataset."""
     del uri
     native_data = await adapter.get_native_data()

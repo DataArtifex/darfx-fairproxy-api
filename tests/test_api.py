@@ -30,14 +30,14 @@ def test_unsupported_unified_platform() -> None:
     assert "experimental" in response.json()["detail"]
 
 
-def test_resources_placeholder() -> None:
+def test_resources_endpoint_removed() -> None:
     response = client.get("/resources/")
-    assert response.status_code == 200
+    assert response.status_code == 404
 
 
-def test_vocab_placeholder() -> None:
+def test_vocab_endpoint_removed() -> None:
     response = client.get("/vocab/")
-    assert response.status_code == 200
+    assert response.status_code == 404
 
 
 # Servers Route Tests
@@ -70,15 +70,6 @@ def test_servers_get_by_id_missing() -> None:
 
 
 # Catalog Route Tests
-def test_catalog_resolve() -> None:
-    response = client.get("/catalog/urn:socrata:data.cityofnewyork.us")
-    assert response.status_code == 200
-    res = response.json()
-    assert res["type"] == "Catalog"
-    assert res["host"] == "data.cityofnewyork.us"
-
-
-def test_catalog_dcat() -> None:
+def test_catalog_endpoint_removed() -> None:
     response = client.get("/catalog/urn:socrata:data.cityofnewyork.us/dcat")
-    assert response.status_code == 200
-    assert response.headers["content-type"] == "application/ld+json"
+    assert response.status_code == 404

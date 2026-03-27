@@ -22,9 +22,9 @@ def get_socrata_server(host: str) -> Any:
     return create_socrata_server(host)
 
 
-def get_platform_adapter(uri: str) -> DatasetProvider:
+def get_dataset_adapter(uri: str) -> DatasetProvider:
     """
-    FastAPI Dependency to parse a URI string and return the corresponding initialized PlatformAdapter.
+    FastAPI Dependency to parse a URI string and return the corresponding initialized DatasetProvider.
     Currently only supports Socrata based on current build status.
     """
 
