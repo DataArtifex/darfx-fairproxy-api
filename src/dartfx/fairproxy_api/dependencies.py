@@ -78,12 +78,19 @@ def get_catalog_adapter(uri: str) -> CatalogProvider:
         return SocrataCatalogAdapter(server)
 
     elif resource_info.platform == Platform.MTNARDS:
-        raise HTTPException(status_code=501, detail="MTNA RDS catalog integration is experimental and currently disabled.")
+        raise HTTPException(
+            status_code=501,
+            detail="MTNA RDS catalog integration is experimental and currently disabled.",
+        )
 
     elif resource_info.platform == Platform.USCENSUS:
-        raise HTTPException(status_code=501, detail="US Census catalog integration is experimental and currently disabled.")
+        raise HTTPException(
+            status_code=501,
+            detail="US Census catalog integration is experimental and currently disabled.",
+        )
 
     else:
         raise HTTPException(
-            status_code=501, detail=f"Catalog adapter for platform {resource_info.platform.value.name} is not implemented."
+            status_code=501,
+            detail=(f"Catalog adapter for platform {resource_info.platform.value.name} is not implemented."),
         )
